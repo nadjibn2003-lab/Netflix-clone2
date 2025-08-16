@@ -7,11 +7,16 @@ plugins {
 
 def localProperties = new Properties()
 localProperties.load(new FileInputStream(rootProject.file("local.properties")))
-
-android {
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+}
+def api_key = localProperties.getProperty("api_key")
+android (
     compileSdkVersion 33
 
-    defaultConfig {
+    defaultConfig {buildConfigField "String", "TMDB_API_KEY", "\"${api_key}\""
         applicationId "com.netflixclone"
         minSdkVersion 21
         targetSdkVersion 33
